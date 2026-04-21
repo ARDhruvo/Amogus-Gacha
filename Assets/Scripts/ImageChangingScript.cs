@@ -13,9 +13,40 @@ public class ImageChangingScript : MonoBehaviour
     "Sparkly Amogus",
     "Walking Shrimogus"};
 
-    public int heightPx = 960;
-    public int widthPx = 960;
-    private string assetPath = "Images/GachaImages/3stars/";
+    private readonly string[] fourStars = {"Borgamogus",
+    "Cheesemogus",
+    "Eggmogus with Eggshells",
+    "Looking Shrimogus",
+    "Pancakemogus",
+    "Sleeping Breadmogus",
+    "Spagghetmogus",
+    "Teamogus",
+    "Yellow Pizzamogus",};
+
+    private readonly string[] fiveStars = {"Bananamogus",
+    "Breadmogus Group",
+    "Dumogus with mini Dumogus",
+    "Papyramogus",
+    "Red Pizzamogus",
+    "Sansamogus",
+    "Shrimogus Riding a Shrimp",
+    "Sweet Potatomogus",
+    "Undymogus",
+    "Walking Eggmogus"};
+
+    private readonly string[] sixStars = {"Basket Breadmogus",
+    "Breakfastmogus",
+    "Duo Pizzamogus",
+    "Eating Sansamogus",
+    "Pancakemogus Impostor",
+    "Sitting Eggmogus",
+    "Vegimogus"};
+
+    public int rarityThreeStars = 3;
+    public int rarityFourStars = 7;
+    public int rarityFiveStars = 9;
+    // public int raritySixStars = 1;
+    // private string assetPath = "Images/GachaImages/";
     // public SpriteRenderer spriteRenderer;
     public Image targetImage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,7 +69,29 @@ public class ImageChangingScript : MonoBehaviour
             return;
         }
 
-        string randomName = threeStars[Random.Range(0, threeStars.Length)];
+        int rarity = RarityDecider(Random.Range(0, 100));
+        string[] selectedArray;
+        string assetPath = setPath(rarity);
+        switch (rarity)
+        {
+            case 3:
+                selectedArray = threeStars;
+                break;
+            case 4:
+                selectedArray = fourStars;
+                break;
+            case 5:
+                selectedArray = fiveStars;
+                break;
+            case 6:
+                selectedArray = sixStars;
+                break;
+            default:
+                selectedArray = threeStars;
+                break;
+        }
+
+        string randomName = selectedArray[Random.Range(0, selectedArray.Length)];
         Sprite newSprite = Resources.Load<Sprite>(assetPath + randomName);
 
         if (newSprite != null)
@@ -49,5 +102,32 @@ public class ImageChangingScript : MonoBehaviour
         {
             Debug.LogError($"Sprite not found at Resources/{assetPath}{randomName}");
         }
+    }
+
+    int RarityDecider(int val)
+    {
+        int rarityRoll = val % 10;
+        if (rarityRoll < rarityThreeStars)
+        {
+            return 3;
+        }
+        else if (rarityRoll < rarityFourStars)
+        {
+            return 4;
+        }
+        else if (rarityRoll < rarityFiveStars)
+        {
+            return 5;
+        }
+        else
+        {
+            return 6;
+        }
+    }
+
+    string setPath(int rarity)
+    {
+        string assetPath = "Images/GachaImages/";
+        return assetPath + rarity + "Stars/";
     }
 }
