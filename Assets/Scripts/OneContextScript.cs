@@ -9,6 +9,7 @@ public class OneContextScript : MonoBehaviour
     void Start()
     {
         isContextActive = false;
+        ToggleContext();
     }
 
     // Update is called once per frame
@@ -19,15 +20,14 @@ public class OneContextScript : MonoBehaviour
 
     public void ToggleContext()
     {
+        isContextActive = !isContextActive;
         if (isContextActive)
         {
             RollOne.SetActive(true);
-            isContextActive = false;
         }
         else
         {
             RollOne.SetActive(false);
-            isContextActive = true;
         }
     }
 }

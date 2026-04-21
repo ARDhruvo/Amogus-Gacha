@@ -42,9 +42,9 @@ public class ImageChangingScript : MonoBehaviour
     "Sitting Eggmogus",
     "Vegimogus"};
 
-    public int rarityThreeStars = 3;
-    public int rarityFourStars = 7;
-    public int rarityFiveStars = 9;
+    public int rarityThreeStars = 30;
+    public int rarityFourStars = 80;
+    public int rarityFiveStars = 99;
     // public int raritySixStars = 1;
     // private string assetPath = "Images/GachaImages/";
     // public SpriteRenderer spriteRenderer;
@@ -52,13 +52,36 @@ public class ImageChangingScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ChangeImage();
+        // ChangeImage();
+        SetDefaultCondition();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void SetDefaultCondition()
+    {
+        rarityFiveStars = 99;
+        rarityFourStars = 80;
+        rarityThreeStars = 30;
+        if (targetImage == null)
+        {
+            Debug.LogError("Target Image is not assigned!", this);
+            return;
+        }
+
+        Sprite defaultSprite = Resources.Load<Sprite>("Images/GachaImages/default");
+        if (defaultSprite != null)
+        {
+            targetImage.sprite = defaultSprite;
+        }
+        else
+        {
+            Debug.LogError("Default sprite not found at Resources/Images/GachaImages/default");
+        }
     }
 
     public void ChangeImage()
@@ -69,7 +92,7 @@ public class ImageChangingScript : MonoBehaviour
             return;
         }
 
-        int rarity = RarityDecider(Random.Range(0, 100));
+        int rarity = RarityDecider(Random.Range(0, 1000));
         string[] selectedArray;
         string assetPath = setPath(rarity);
         switch (rarity)
@@ -106,21 +129,25 @@ public class ImageChangingScript : MonoBehaviour
 
     int RarityDecider(int val)
     {
-        int rarityRoll = val % 10;
+        int rarityRoll = val % 100;
         if (rarityRoll < rarityThreeStars)
         {
+            // Debug.Log(rarityRoll + " < " + rarityThreeStars + " 3 Stars");
             return 3;
         }
         else if (rarityRoll < rarityFourStars)
         {
+            // Debug.Log(rarityRoll + " < " + rarityFourStars + " 4 Stars");
             return 4;
         }
         else if (rarityRoll < rarityFiveStars)
         {
+            // Debug.Log(rarityRoll + " < " + rarityFiveStars + " 5 Stars");
             return 5;
         }
         else
         {
+            // Debug.Log(rarityRoll + " 6 Stars");
             return 6;
         }
     }

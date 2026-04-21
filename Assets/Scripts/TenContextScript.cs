@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TenContextScript : MonoBehaviour
 {
@@ -7,7 +8,8 @@ public class TenContextScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isContextActive = true;
+        isContextActive = false;
+        ToggleContext();
 
     }
 
@@ -19,15 +21,14 @@ public class TenContextScript : MonoBehaviour
 
     public void ToggleContext()
     {
+        isContextActive = !isContextActive;
         if (isContextActive)
         {
             RollTen.SetActive(true);
-            isContextActive = false;
         }
         else
         {
             RollTen.SetActive(false);
-            isContextActive = true;
         }
     }
 }
